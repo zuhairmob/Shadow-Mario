@@ -101,12 +101,26 @@ public class ShadowMario extends AbstractGame {
             INSTRUCTION_FONT.drawString(INSTRUCTION,
                     Window.getWidth() / 2 - INSTRUCTION_FONT.getWidth(INSTRUCTION)/2, INS_Y);
 
-            if (input.wasPressed(Keys.SPACE)) {
+            if (input.wasPressed(Keys.NUM_1)) {
                 started = true;
                 finished = false;
                 score = 0;
 
                 String[][] lines = IOUtils.readCsv(this.PROPS.getProperty("level1File"));
+                populateGameObjects(lines);
+            } else if (input.wasPressed(Keys.NUM_2)) {
+                started = true;
+                finished = false;
+                score = 0;
+
+                String[][] lines = IOUtils.readCsv(this.PROPS.getProperty("level2File"));
+                populateGameObjects(lines);
+            } else if (input.wasPressed(Keys.NUM_3)) {
+                started = true;
+                finished = false;
+                score = 0;
+
+                String[][] lines = IOUtils.readCsv(this.PROPS.getProperty("level3File"));
                 populateGameObjects(lines);
             }
         } else if (player.isDead() && player.getY() > WINDOW_HEIGHT) {
