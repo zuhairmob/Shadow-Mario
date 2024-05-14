@@ -6,58 +6,49 @@ import java.util.Properties;
 
 /**
  * Class that contains methods to read a CSV file and a properties file.
- * You may edit this as you wish.
  */
 public class IOUtils {
 
     /***
-     * Method that reads a CSV file and return a 2D String array
+     * Method that reads a CSV file and return a list of String arrays
      * @param csvFile: the path to the CSV file
-     * @return 2D String array
+     * @return: String[][]. Each String[] array represents elements in a single line in the CSV file
      */
     public static String[][] readCsv(String csvFile) {
+        try {
 
-        // Use first try-catch block to read the number of lines in the CSV
-        int rowCount = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            // checking number of lines in file
+            BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+            int numLines = 0;
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                rowCount++;  // Count the number of lines in the CSV
+            while (reader.readLine() != null) {
+                numLines++;
             }
+            reader.close();
 
-        } catch (IOException e) {
+            reader = new BufferedReader(new FileReader(csvFile));
+            String[][] lines = new String[numLines][];
+            String textRead;
+            int lineIndex = 0;
 
-            System.err.println("Error reading world file: " + e.getMessage());
-            return null;
+            while ((textRead = reader.readLine()) != null) {
+                String[] splitText = textRead.split(",");
+                lines[lineIndex++] = splitText;
+            }
+            return lines;
 
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.exit(-1);
         }
 
-
-        // Use second try-catch block to save the contents into a 2D array
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))){
-
-            String line;
-            String[][] data = new String[rowCount][3];  // Create a 2D array of size #rows x 3
-            int rowIndex = 0;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");  // Split lines with the comma delimiter, so they can be saved as an array
-                data[rowIndex] = values;
-                rowIndex++;
-            }
-            return data;
-
-        } catch (IOException e) {
-            System.err.println("Error reading world file: " + e.getMessage());
-            return null;
-        }
-
+        return null;
     }
 
     /***
      * Method that reads a properties file and return a Properties object
      * @param configFile: the path to the properties file
-     * @return Properties object
+     * @return: Properties object
      */
     public static Properties readPropertiesFile(String configFile) {
         Properties appProps = new Properties();
