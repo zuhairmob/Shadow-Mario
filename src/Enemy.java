@@ -15,6 +15,10 @@ public class Enemy {
     private int x;
     private boolean killedTarget = false;
     private boolean hitPlayer = false;
+    private final int RAND_LEFT = 0;
+    private final int RAND_RIGHT = 1;
+    private int randMove = (int) Math.round(Math.random());
+    private int randMoveDistance = 0;
 
     public Enemy(int x, int y, Properties props) {
         this.x = x;
@@ -30,6 +34,7 @@ public class Enemy {
      */
     public void updateWithTarget(Input input, Player target) {
         move(input);
+        randomMove(randMove);
         image.draw(x, Y);
 
         if (target != null && CollisionDetector.isCollided(target, this.x, this.Y, this.RADIUS) && !hitPlayer) {
@@ -60,6 +65,22 @@ public class Enemy {
         if (newHealth <= 0 && !killedTarget) {
             player.dead();
             killedTarget = true;
+        }
+    }
+
+    private void randomMove(int randMove){
+        if (this.randMove == this.RAND_RIGHT){
+            this.x += 1;
+            randMoveDistance += 1;
+            if (randMoveDistance >= 50) {
+                this.randMove = this.RAND_LEFT;
+            }
+        } else if (this.randMove == this.RAND_LEFT) {
+            this.x -= 1;
+            randMoveDistance -= 1;
+            if (randMoveDistance <= -50) {
+                this.randMove = this.RAND_RIGHT;
+            }
         }
     }
 }
