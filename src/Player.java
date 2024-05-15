@@ -14,6 +14,7 @@ public class Player {
     private final int INITIAL_JUMP_SPEED = -20;
     private final int FALL_SPEED = 2;
     private int y;
+    private int prevY;
     private int speedY = 0;
     private double health;
     private Image image;
@@ -22,6 +23,7 @@ public class Player {
     public Player(int x, int y, Properties props) {
         this.X = x;
         this.y = y;
+        this.prevY = y;
         this.INITIAL_Y = y;
         this.PROPS = props;
         this.RADIUS = Double.parseDouble(props.getProperty("gameObjects.player.radius"));
@@ -47,6 +49,8 @@ public class Player {
      * Method that handles the player's jumping movement.
      */
     public void jump(Input input) {
+        // Track previous y position
+        this.prevY = this.y;
 
         // on platform and up arrow key is pressed
         if (input.wasPressed(Keys.UP) && (y == INITIAL_Y || this.isOnFlyingPlatform)) {
@@ -67,6 +71,8 @@ public class Player {
 
         if (this.isOnFlyingPlatform) {
             speedY = 0;
+        } else if (speedY > 0) {
+            this.isOnFlyingPlatform = false;
         }
 
         this.y += speedY;
@@ -103,6 +109,11 @@ public class Player {
 
     public boolean isDead() {
         return health <= 0;
+    }
+
+    // Getter for previous y position
+    public int getPrevY() {
+        return prevY;
     }
 
     /**]

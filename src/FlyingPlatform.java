@@ -42,7 +42,10 @@ public class FlyingPlatform {
         randomMove(randMove);
         image.draw(x, Y);
 
-        if ((Math.abs(target.getX() - this.x) < this.HALF_LENGTH) &&
+        // Check if the player is falling
+        boolean isFalling = target.getY() > target.getPrevY();
+
+        if (!isFalling && (Math.abs(target.getX() - this.x) < this.HALF_LENGTH) &&
             (Math.abs(target.getY() - this.Y) <= this.HALF_HEIGHT) &&
             (Math.abs(target.getY() - this.Y) >= (this.HALF_HEIGHT - 1))){
             target.setIsOnFlyingPlatform(true);
