@@ -19,8 +19,8 @@ public class Enemy {
     private final int RAND_RIGHT = 1;
     private int randMove = (int) Math.round(Math.random());
     private int displacement = 0;
-    private final int randomSpeed;
-    private final int maxRandomDisplacementX;
+    private final int RANDOM_SPEED;
+    private final int MAX_RANDOM_DISPLACEMENT;
 
     public Enemy(int x, int y, Properties props) {
         this.x = x;
@@ -29,8 +29,8 @@ public class Enemy {
         this.DAMAGE_SIZE = Double.parseDouble(props.getProperty("gameObjects.enemy.damageSize"));
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.enemy.speed"));
         this.image = new Image(props.getProperty("gameObjects.enemy.image"));
-        this.randomSpeed = Integer.parseInt(props.getProperty("gameObjects.enemy.randomSpeed"));
-        this.maxRandomDisplacementX = Integer.parseInt(props.getProperty("gameObjects.enemy.maxRandomDisplacementX"));
+        this.RANDOM_SPEED = Integer.parseInt(props.getProperty("gameObjects.enemy.randomSpeed"));
+        this.MAX_RANDOM_DISPLACEMENT = Integer.parseInt(props.getProperty("gameObjects.enemy.maxRandomDisplacementX"));
     }
 
     /***
@@ -78,15 +78,15 @@ public class Enemy {
      */
     private void randomMove(int randMove){
         if (this.randMove == this.RAND_RIGHT){
-            this.x += randomSpeed;
+            this.x += RANDOM_SPEED;
             displacement += 1;
-            if (Math.abs(displacement) >= maxRandomDisplacementX) {
+            if (Math.abs(displacement) >= MAX_RANDOM_DISPLACEMENT) {
                 this.randMove = this.RAND_LEFT;
             }
         } else if (this.randMove == this.RAND_LEFT) {
             this.x -= 1;
-            displacement -= randomSpeed;
-            if (Math.abs(displacement) >= maxRandomDisplacementX) {
+            displacement -= RANDOM_SPEED;
+            if (Math.abs(displacement) >= MAX_RANDOM_DISPLACEMENT) {
                 this.randMove = this.RAND_RIGHT;
             }
         }

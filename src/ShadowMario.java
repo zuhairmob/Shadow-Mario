@@ -36,6 +36,7 @@ public class ShadowMario extends AbstractGame {
     private Platform platform;
     private Enemy[] enemies;
     private Coin[] coins;
+    private FlyingPlatform[] flyingPlatforms;
     private EndFlag endFlag;
     private boolean started = false;
 
@@ -158,9 +159,12 @@ public class ShadowMario extends AbstractGame {
         coins = new Coin[coinCount];
         int enemyCount = (int) Arrays.stream(lines).filter(s -> "ENEMY".equals(s[0])).count();
         enemies = new Enemy[enemyCount];
+        int flyingPlatformCount = (int) Arrays.stream(lines).filter(s -> "FLYING_PLATFORM".equals(s[0])).count();
+        flyingPlatforms = new FlyingPlatform[flyingPlatformCount];
 
         int enemyIndex = 0;
         int coinIndex = 0;
+        int flyingPlatformIndex = 0;
 
         for(String[] lineElement: lines) {
             int x = Integer.parseInt(lineElement[1]);
@@ -176,6 +180,9 @@ public class ShadowMario extends AbstractGame {
             } else if (lineElement[0].equals("COIN")) {
                 Coin coin = new Coin(x, y, PROPS);
                 coins[coinIndex++] = coin;
+            } else if (lineElement[0].equals("FLYING_PLATFORM")) {
+                FlyingPlatform flyingPlatform = new FlyingPlatform(x, y, PROPS);
+                flyingPlatforms[flyingPlatformIndex++] = flyingPlatform;
             } else if (lineElement[0].equals("END_FLAG")) {
                 endFlag = new EndFlag(x, y, PROPS);
             }
@@ -197,8 +204,13 @@ public class ShadowMario extends AbstractGame {
             score += c.updateWithTarget(input, player);
         }
 
+        for(FlyingPlatform fp: flyingPlatforms) {
+            fp.updateWithTarget(input, player);
+        }
+
         player.update(input);
         endFlag.updateWithTarget(input, player);
+        FlyingPlatform.setPlayerLandedDuringThisFrame(false);
 
         if(endFlag.isCollided()) {
             finished = true;

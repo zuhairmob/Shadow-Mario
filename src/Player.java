@@ -17,6 +17,7 @@ public class Player {
     private int speedY = 0;
     private double health;
     private Image image;
+    private Boolean isOnFlyingPlatform = false;
 
     public Player(int x, int y, Properties props) {
         this.X = x;
@@ -38,8 +39,8 @@ public class Player {
         if (input.wasPressed(Keys.RIGHT)) {
             image = new Image(this.PROPS.getProperty("gameObjects.player.imageRight"));
         }
-        image.draw(X, y);
         jump(input);
+        image.draw(X, y);
     }
 
     /**
@@ -48,8 +49,9 @@ public class Player {
     public void jump(Input input) {
 
         // on platform and up arrow key is pressed
-        if (input.wasPressed(Keys.UP) && y == INITIAL_Y) {
+        if (input.wasPressed(Keys.UP) && (y == INITIAL_Y || this.isOnFlyingPlatform)) {
             speedY = INITIAL_JUMP_SPEED;
+            this.isOnFlyingPlatform = false;
         }
 
         // mid jump
@@ -63,7 +65,14 @@ public class Player {
             y = INITIAL_Y;
         }
 
+        if (this.isOnFlyingPlatform) {
+            speedY = 0;
+        }
+
         this.y += speedY;
+
+
+
     }
 
     /**
@@ -95,4 +104,11 @@ public class Player {
     public boolean isDead() {
         return health <= 0;
     }
+
+    /**]
+     * Method that sets the indicator of if the player is on a flying platform.
+     */
+    public void setIsOnFlyingPlatform(Boolean isOnFlyingPlatform) {
+        this.isOnFlyingPlatform = isOnFlyingPlatform;
+    };
 }
