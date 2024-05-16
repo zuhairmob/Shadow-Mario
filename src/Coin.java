@@ -18,6 +18,12 @@ public class Coin {
     private Image image;
     private boolean isCollided = false;
 
+    /***
+     * Constructor for the coin object.
+     * @param x X position of the coin.
+     * @param y Y position of the coin.
+     * @param props Properties object to be used to obtain coin properties.
+     */
     public Coin(int x, int y, Properties props) {
         this.x = x;
         this.y = y;

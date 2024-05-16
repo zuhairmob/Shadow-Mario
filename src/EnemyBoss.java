@@ -24,6 +24,12 @@ public class EnemyBoss {
     private final char RIGHT = 'r';
     private final char LEFT = 'l';
 
+    /***
+     * Constructor for the EnemyBoss object.
+     * @param x X position of the enemy boss.
+     * @param y Y position of the enemy boss.
+     * @param props Properties object to be used to obtain enemy boss properties
+     */
     public EnemyBoss(int x, int y, Properties props) {
         this.x = x;
         this.y = y;
@@ -76,22 +82,42 @@ public class EnemyBoss {
         fireballs.add(fireball);
     }
 
+    /***
+     * Getter for the double health attribute.
+     * @return double health representing the enemy boss's health out of 1
+     */
     public double getHealth() {
         return health;
     }
 
+    /***
+     * Setter for the double health attribute.
+     * @param health double health representing the enemy boss's health out of 1
+     */
     public void setHealth(double health) {
         this.health = health;
     }
 
+    /***
+     * Getter for the x position attribute.
+     * @return int x representing the enemy boss's x position
+     */
     public int getX() {
         return this.x;
     }
 
+    /***
+     * Getter for the y position attribute.
+     * @return int y representing the enemy boss's y position
+     */
     public int getY() {
         return this.y;
     }
 
+    /***
+     * Getter for the radius attribute.
+     * @return double radius representing the collision radius of the enemy boss
+     */
     public double getRADIUS() {
         return this.RADIUS;
     }

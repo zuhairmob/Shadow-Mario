@@ -13,6 +13,12 @@ public class Platform {
     private int x;
     private Image image;
 
+    /***
+     * Constructor for the platform object.
+     * @param x X position of the platform
+     * @param y Y position of the platform
+     * @param props Properties object to be used to obtain platform properties
+     */
     public Platform(int x, int y, Properties props) {
         this.x = x;
         this.Y = y;

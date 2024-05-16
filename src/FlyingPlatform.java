@@ -23,6 +23,12 @@ public class FlyingPlatform {
     private int randMove = (int) Math.round(Math.random());
     private int displacement = 0;
 
+    /***
+     * Constructor for the flying platform object.
+     * @param x X position of the flying platform
+     * @param y Y position of the flying platform
+     * @param props Properties object to be used to obtain flying platform properties
+     */
     public FlyingPlatform(int x, int y, Properties props){
         this.x = x;
         this.Y = y;
@@ -83,6 +89,10 @@ public class FlyingPlatform {
         }
     }
 
+    /***
+     * Setter for the playerLandedDuringThisFrame attribute.
+     * @param b Boolean that is true if the player has landed in the current frame
+     */
     public static void setPlayerLandedDuringThisFrame(Boolean b) {
         playerLandedDuringThisFrame = b;
     }

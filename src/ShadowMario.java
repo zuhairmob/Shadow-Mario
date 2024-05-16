@@ -261,13 +261,14 @@ public class ShadowMario extends AbstractGame {
         endFlag.updateWithTarget(input, player);
         FlyingPlatform.setPlayerLandedDuringThisFrame(false);
 
-        if(endFlag.isCollided()) {
+        if(endFlag.getIsCollided()) {
             finished = true;
         }
     }
 
     /**
      * Getter for the Properties file.
+     * @return Properties object which is being used to get the game properties
      */
     public static Properties getPROPS(){
         return PROPS;

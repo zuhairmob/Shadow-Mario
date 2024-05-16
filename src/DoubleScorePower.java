@@ -20,6 +20,12 @@ public class DoubleScorePower {
     private static boolean isActive = false;
     private int activeFrames = 0;
 
+    /***
+     * Constructor for the DoubleScorePower object.
+     * @param x X position of the double score power.
+     * @param y Y position of the double score power.
+     * @param props Properties object to be used to obtain double score power properties.
+     */
     public DoubleScorePower(int x, int y, Properties props) {
         this.x = x;
         this.y = y;

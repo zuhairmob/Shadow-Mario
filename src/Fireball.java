@@ -23,6 +23,13 @@ public class Fireball {
     private final char RIGHT = 'r';
     private final char LEFT = 'l';
 
+    /***
+     * Constructor for the fireball object.
+     * @param x X position of the fireball object
+     * @param y Y position of the fireball object
+     * @param props Properties object to be used to obtain fireball properties
+     * @param direction Char 'l' or 'r' representing the direction the fireball is fired in
+     */
     public Fireball(int x, int y, Properties props, char direction) {
         this.x = x;
         this.Y = y;

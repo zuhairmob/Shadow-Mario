@@ -26,6 +26,12 @@ public class Player {
     private final char RIGHT = 'r';
     private final char LEFT = 'l';
 
+    /***
+     * Constructor for the player object.
+     * @param x X position of the player
+     * @param y Y position of the player
+     * @param props Properties object to be used to obtain player properties
+     */
     public Player(int x, int y, Properties props) {
         this.X = x;
         this.y = y;
@@ -110,35 +116,63 @@ public class Player {
         this.speedY = FALL_SPEED;
     }
 
+    /**
+     * Getter for the player's x position.
+     * @return int representing the player's x position
+     */
     public int getX() {
         return X;
     }
 
+    /**
+     * Setter for the player's y position.
+     * @return int representing the player's y position
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Getter for the player's radius.
+     * @return double representing the player's collision radius
+     */
     public double getRADIUS() {
         return RADIUS;
     }
 
+    /**
+     * Getter for the player's health.
+     * @return double representing the player's health out of 1
+     */
     public double getHealth() {
         return health;
     }
 
+    /**
+     * Getter for the fallingFromPlatform attribute.
+     * @return Boolean which is true if the player is falling down from a higher platform
+     */
     public boolean getisFallingFromPlatform() {
         return fallingFromPlatform;
     }
 
+    /**
+     * Setter for the player's health.
+     * @param health double representing the player's health out of 1
+     */
     public void setHealth(double health) {
         this.health = health;
     }
 
+    /**
+     * Method that returns true if the player is dead and false otherwise.
+     * @return boolean which is true if the player's health is less than or equal to zero and false otherwise
+     */
     public boolean isDead() {
         return health <= 0;
     }
 
-    /**]
+    /**
      * Method that sets the indicator of if the player is on a flying platform.
      */
     public void setIsOnFlyingPlatform(Boolean isOnFlyingPlatform) {

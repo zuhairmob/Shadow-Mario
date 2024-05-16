@@ -23,6 +23,12 @@ public class Enemy {
     private final int RANDOM_SPEED;
     private final int MAX_RANDOM_DISPLACEMENT;
 
+    /***
+     * Constructor for the enemy object.
+     * @param x X position of the enemy object.
+     * @param y Y position of the enemy object.
+     * @param props Properties object to be used to obtain enemy properties.
+     */
     public Enemy(int x, int y, Properties props) {
         this.x = x;
         this.Y = y;

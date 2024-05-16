@@ -20,6 +20,12 @@ public class InvinciblePower {
     private static boolean isActive = false;
     private int activeFrames = 0;
 
+    /***
+     * Constructor for the invincible power object.
+     * @param x X position of the invincible power
+     * @param y Y position of the invincible power
+     * @param props Properties object to be used to obtain invincible power properties
+     */
     public InvinciblePower(int x, int y, Properties props) {
         this.x = x;
         this.y = y;
@@ -68,6 +74,7 @@ public class InvinciblePower {
 
     /***
      * Getter method for isActive variable.
+     * @return Boolean that is true if the power is active
      */
     public static boolean isActive() {
         return isActive;

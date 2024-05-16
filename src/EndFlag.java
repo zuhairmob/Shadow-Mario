@@ -49,7 +49,11 @@ public class EndFlag {
         }
     }
 
-    public boolean isCollided() {
+    /***
+     * Getter method for the Boolean isCollided.
+     * @return
+     */
+    public boolean getIsCollided() {
         return isCollided;
     }
 }
