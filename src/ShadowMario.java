@@ -39,6 +39,7 @@ public class ShadowMario extends AbstractGame {
     private FlyingPlatform[] flyingPlatforms;
     private DoubleScorePower[] doubleScorePowers;
     private InvinciblePower[] invinciblePowers;
+    //private EnemyBoss enemyBoss;
     private EndFlag endFlag;
     private boolean started = false;
 
@@ -191,14 +192,17 @@ public class ShadowMario extends AbstractGame {
             } else if (lineElement[0].equals("FLYING_PLATFORM")) {
                 FlyingPlatform flyingPlatform = new FlyingPlatform(x, y, PROPS);
                 flyingPlatforms[flyingPlatformIndex++] = flyingPlatform;
-            } else if (lineElement[0].equals("END_FLAG")) {
-                endFlag = new EndFlag(x, y, PROPS);
             } else if (lineElement[0].equals("DOUBLE_SCORE")) {
                 DoubleScorePower doubleScorePower = new DoubleScorePower(x, y, PROPS);
                 doubleScorePowers[doubleScorePowerIndex++] = doubleScorePower;
             } else if (lineElement[0].equals("INVINCIBLE_POWER")) {
                 InvinciblePower invinciblePower = new InvinciblePower(x, y, PROPS);
                 invinciblePowers[invinciblePowerIndex++] = invinciblePower;
+            }
+            /*else if (lineElement[0].equals("ENEMY_BOSS")) {
+                enemyBoss = new EnemyBoss(x, y, PROPS);
+            }*/ else if (lineElement[0].equals("END_FLAG")) {
+                endFlag = new EndFlag(x, y, PROPS);
             }
         }
     }
@@ -231,6 +235,7 @@ public class ShadowMario extends AbstractGame {
         }
 
         player.update(input);
+        //if (enemyBoss != null) enemyBoss.updateWithTarget(input, player);
         endFlag.updateWithTarget(input, player);
         FlyingPlatform.setPlayerLandedDuringThisFrame(false);
 
