@@ -10,6 +10,7 @@ public class EndFlag {
     private final int Y;
     private final double RADIUS;
     private final int SPEED_X;
+    private final int MAX_COORDINATE;
     private int x;
     private Image image;
     private boolean isCollided = false;
@@ -17,6 +18,7 @@ public class EndFlag {
     public EndFlag(int x, int y, Properties props) {
         this.x = x;
         this.Y = y;
+        this.MAX_COORDINATE = x;
         this.RADIUS = Double.parseDouble(props.getProperty("gameObjects.endFlag.radius"));
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.endFlag.speed"));
         this.image = new Image(props.getProperty("gameObjects.endFlag.image"));
@@ -41,7 +43,9 @@ public class EndFlag {
         if (input.isDown(Keys.RIGHT)){
             this.x -= SPEED_X;
         } else if (input.isDown(Keys.LEFT)){
-            this.x += SPEED_X;
+            if (this.x < MAX_COORDINATE){
+                this.x += SPEED_X;
+            }
         }
     }
 

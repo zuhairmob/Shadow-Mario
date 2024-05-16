@@ -10,6 +10,7 @@ import java.util.Properties;
 public class FlyingPlatform {
     private final int Y;
     private final int SPEED_X;
+    private final int MAX_COORDINATE;
     private int x;
     private Image image;
     private final int RANDOM_SPEED;
@@ -25,6 +26,7 @@ public class FlyingPlatform {
     public FlyingPlatform(int x, int y, Properties props){
         this.x = x;
         this.Y = y;
+        this.MAX_COORDINATE = x;
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.flyingPlatform.speed"));
         this.image = new Image(props.getProperty("gameObjects.flyingPlatform.image"));
         this.RANDOM_SPEED = Integer.parseInt(props.getProperty("gameObjects.flyingPlatform.randomSpeed"));
@@ -62,7 +64,9 @@ public class FlyingPlatform {
         if (input.isDown(Keys.RIGHT)){
             this.x -= SPEED_X;
         } else if (input.isDown(Keys.LEFT)){
-            this.x += SPEED_X;
+            if (this.x < MAX_COORDINATE){
+                this.x += SPEED_X;
+            }
         }
     }
 

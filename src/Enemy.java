@@ -12,6 +12,7 @@ public class Enemy {
     private final int SPEED_X;
     private final double DAMAGE_SIZE;
     private Image image;
+    private final int MAX_COORDINATE;
     private int x;
     private boolean killedTarget = false;
     private boolean hitPlayer = false;
@@ -25,6 +26,7 @@ public class Enemy {
     public Enemy(int x, int y, Properties props) {
         this.x = x;
         this.Y = y;
+        this.MAX_COORDINATE = x;
         this.RADIUS = Double.parseDouble(props.getProperty("gameObjects.enemy.radius"));
         this.DAMAGE_SIZE = Double.parseDouble(props.getProperty("gameObjects.enemy.damageSize"));
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.enemy.speed"));
@@ -43,7 +45,9 @@ public class Enemy {
 
         if (target != null && CollisionDetector.isCollided(target, this.x, this.Y, this.RADIUS) && !hitPlayer) {
             hitPlayer = true;
-            damageTarget(target);
+            if (!InvinciblePower.isActive()) {
+                damageTarget(target);
+            }
         }
     }
 
@@ -54,7 +58,9 @@ public class Enemy {
         if (input.isDown(Keys.RIGHT)){
             this.x -= SPEED_X;
         } else if (input.isDown(Keys.LEFT)){
-            this.x += SPEED_X;
+            if (this.x < MAX_COORDINATE){
+                this.x += SPEED_X;
+            }
         }
     }
 

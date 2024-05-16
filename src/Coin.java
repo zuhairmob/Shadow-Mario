@@ -11,6 +11,7 @@ public class Coin {
     private final int SPEED_X;
     private final int VALUE;
     private final int COLLISION_SPEED = -10;
+    private final int MAX_COORDINATE;
     private int x;
     private int y;
     private int speedY = 0;
@@ -20,6 +21,7 @@ public class Coin {
     public Coin(int x, int y, Properties props) {
         this.x = x;
         this.y = y;
+        this.MAX_COORDINATE = x;
         this.RADIUS = Double.parseDouble(props.getProperty("gameObjects.coin.radius"));
         this.VALUE = Integer.parseInt(props.getProperty("gameObjects.coin.value"));
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.coin.speed"));
@@ -36,7 +38,12 @@ public class Coin {
         if (CollisionDetector.isCollided(target, this.x, this.y, this.RADIUS) && !isCollided) {
             isCollided = true;
             speedY = COLLISION_SPEED;
-            return VALUE;
+            if (DoubleScorePower.isActive()){
+                return VALUE * 2;
+            }
+            else {
+                return VALUE;
+            }
         }
 
         return 0;
@@ -49,7 +56,9 @@ public class Coin {
         if (input.isDown(Keys.RIGHT)){
             this.x -= SPEED_X;
         } else if (input.isDown(Keys.LEFT)){
-            this.x += SPEED_X;
+            if (this.x < MAX_COORDINATE){
+                this.x += SPEED_X;
+            }
         }
         this.y += speedY;
     }

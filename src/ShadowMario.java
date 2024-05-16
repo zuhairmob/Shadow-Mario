@@ -37,6 +37,8 @@ public class ShadowMario extends AbstractGame {
     private Enemy[] enemies;
     private Coin[] coins;
     private FlyingPlatform[] flyingPlatforms;
+    private DoubleScorePower[] doubleScorePowers;
+    private InvinciblePower[] invinciblePowers;
     private EndFlag endFlag;
     private boolean started = false;
 
@@ -161,10 +163,16 @@ public class ShadowMario extends AbstractGame {
         enemies = new Enemy[enemyCount];
         int flyingPlatformCount = (int) Arrays.stream(lines).filter(s -> "FLYING_PLATFORM".equals(s[0])).count();
         flyingPlatforms = new FlyingPlatform[flyingPlatformCount];
+        int doubleScorePowerCount = (int) Arrays.stream(lines).filter(s -> "DOUBLE_SCORE".equals(s[0])).count();
+        doubleScorePowers = new DoubleScorePower[doubleScorePowerCount];
+        int invinciblePowerCount = (int) Arrays.stream(lines).filter(s -> "INVINCIBLE_POWER".equals(s[0])).count();
+        invinciblePowers = new InvinciblePower[invinciblePowerCount];
 
         int enemyIndex = 0;
         int coinIndex = 0;
         int flyingPlatformIndex = 0;
+        int doubleScorePowerIndex = 0;
+        int invinciblePowerIndex = 0;
 
         for(String[] lineElement: lines) {
             int x = Integer.parseInt(lineElement[1]);
@@ -185,6 +193,12 @@ public class ShadowMario extends AbstractGame {
                 flyingPlatforms[flyingPlatformIndex++] = flyingPlatform;
             } else if (lineElement[0].equals("END_FLAG")) {
                 endFlag = new EndFlag(x, y, PROPS);
+            } else if (lineElement[0].equals("DOUBLE_SCORE")) {
+                DoubleScorePower doubleScorePower = new DoubleScorePower(x, y, PROPS);
+                doubleScorePowers[doubleScorePowerIndex++] = doubleScorePower;
+            } else if (lineElement[0].equals("INVINCIBLE_POWER")) {
+                InvinciblePower invinciblePower = new InvinciblePower(x, y, PROPS);
+                invinciblePowers[invinciblePowerIndex++] = invinciblePower;
             }
         }
     }
@@ -206,6 +220,14 @@ public class ShadowMario extends AbstractGame {
 
         for(FlyingPlatform fp: flyingPlatforms) {
             fp.updateWithTarget(input, player);
+        }
+
+        for (DoubleScorePower dsp: doubleScorePowers) {
+            dsp.updateWithTarget(input, player);
+        }
+
+        for (InvinciblePower ip: invinciblePowers) {
+            ip.updateWithTarget(input, player);
         }
 
         player.update(input);
