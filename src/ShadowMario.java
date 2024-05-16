@@ -27,9 +27,13 @@ public class ShadowMario extends AbstractGame {
     private final Font SCORE_FONT;
     private final int SCORE_X;
     private final int SCORE_Y;
-    private final Font HEALTH_FONT;
-    private final int HEALTH_X;
-    private final int HEALTH_Y;
+    private final Font PLAYER_HEALTH_FONT;
+    private final int PLAYER_HEALTH_X;
+    private final int PLAYER_HEALTH_Y;
+    private final Font ENEMY_BOSS_HEALTH_FONT;
+    private final int ENEMY_BOSS_HEALTH_X;
+    private final int ENEMY_BOSS_HEALTH_Y;
+    private final DrawOptions ENEMY_BOSS_HEALTH_OPTIONS;
     private int score;
     private boolean finished = false;
     private Player player;
@@ -39,7 +43,7 @@ public class ShadowMario extends AbstractGame {
     private FlyingPlatform[] flyingPlatforms;
     private DoubleScorePower[] doubleScorePowers;
     private InvinciblePower[] invinciblePowers;
-    //private EnemyBoss enemyBoss;
+    private EnemyBoss enemyBoss;
     private EndFlag endFlag;
     private boolean started = false;
 
@@ -68,9 +72,15 @@ public class ShadowMario extends AbstractGame {
         MESSAGE_FONT = new Font(FONT_FILE, Integer.parseInt(game_props.getProperty("message.fontSize")));
         MESSAGE_Y = Integer.parseInt(game_props.getProperty("message.y"));
 
-        HEALTH_FONT = new Font(FONT_FILE, Integer.parseInt(game_props.getProperty("playerHealth.fontSize")));
-        HEALTH_X = Integer.parseInt(game_props.getProperty("playerHealth.x"));
-        HEALTH_Y = Integer.parseInt(game_props.getProperty("playerHealth.y"));
+        PLAYER_HEALTH_FONT = new Font(FONT_FILE, Integer.parseInt(game_props.getProperty("playerHealth.fontSize")));
+        PLAYER_HEALTH_X = Integer.parseInt(game_props.getProperty("playerHealth.x"));
+        PLAYER_HEALTH_Y = Integer.parseInt(game_props.getProperty("playerHealth.y"));
+
+        ENEMY_BOSS_HEALTH_FONT = new Font(FONT_FILE, Integer.parseInt(game_props.getProperty("enemyBossHealth.fontSize")));
+        ENEMY_BOSS_HEALTH_X = Integer.parseInt(game_props.getProperty("enemyBossHealth.x"));
+        ENEMY_BOSS_HEALTH_Y = Integer.parseInt(game_props.getProperty("enemyBossHealth.y"));
+        ENEMY_BOSS_HEALTH_OPTIONS = new DrawOptions();
+        ENEMY_BOSS_HEALTH_OPTIONS.setBlendColour(1.0, 0.0, 0.0);
 
         this.PROPS = game_props;
         this.MESSAGE_PROPS = message_props;
@@ -147,8 +157,12 @@ public class ShadowMario extends AbstractGame {
             } else {
                 // game is running
                 SCORE_FONT.drawString(MESSAGE_PROPS.getProperty("score") + score, SCORE_X, SCORE_Y);
-                HEALTH_FONT.drawString(MESSAGE_PROPS.getProperty("health") + Math.round(player.getHealth()*100),
-                        HEALTH_X, HEALTH_Y);
+                PLAYER_HEALTH_FONT.drawString(MESSAGE_PROPS.getProperty("health") + Math.round(player.getHealth()*100),
+                        PLAYER_HEALTH_X, PLAYER_HEALTH_Y);
+                if (enemyBoss != null) {
+                    ENEMY_BOSS_HEALTH_FONT.drawString(MESSAGE_PROPS.getProperty("health") + Math.round(enemyBoss.getHealth()*100),
+                            ENEMY_BOSS_HEALTH_X, ENEMY_BOSS_HEALTH_Y, ENEMY_BOSS_HEALTH_OPTIONS);
+                }
                 updateGameObjects(input);
             }
         }
@@ -198,10 +212,9 @@ public class ShadowMario extends AbstractGame {
             } else if (lineElement[0].equals("INVINCIBLE_POWER")) {
                 InvinciblePower invinciblePower = new InvinciblePower(x, y, PROPS);
                 invinciblePowers[invinciblePowerIndex++] = invinciblePower;
-            }
-            /*else if (lineElement[0].equals("ENEMY_BOSS")) {
+            } else if (lineElement[0].equals("ENEMY_BOSS")) {
                 enemyBoss = new EnemyBoss(x, y, PROPS);
-            }*/ else if (lineElement[0].equals("END_FLAG")) {
+            } else if (lineElement[0].equals("END_FLAG")) {
                 endFlag = new EndFlag(x, y, PROPS);
             }
         }
@@ -235,7 +248,7 @@ public class ShadowMario extends AbstractGame {
         }
 
         player.update(input);
-        //if (enemyBoss != null) enemyBoss.updateWithTarget(input, player);
+        if (enemyBoss != null) enemyBoss.updateWithTarget(input, player);
         endFlag.updateWithTarget(input, player);
         FlyingPlatform.setPlayerLandedDuringThisFrame(false);
 
