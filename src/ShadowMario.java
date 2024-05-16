@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Properties;
 
 /**
- * Skeleton Code for SWEN20003 Project 2, Semester 1, 2024
  * Extended from the sample solution for SWEN20003 Project 1, Semester 1, 2024
  * Authored by Dimuthu Kariyawasan & Tharun Dharmawickrema
  *
@@ -48,7 +47,7 @@ public class ShadowMario extends AbstractGame {
     private DoubleScorePower[] doubleScorePowers;
     private InvinciblePower[] invinciblePowers;
     private EnemyBoss enemyBoss;
-    private ArrayList<Fireball> fireballs = new ArrayList<Fireball>();
+    private ArrayList<Fireball> fireballs = new ArrayList<>();
     private EndFlag endFlag;
     private boolean started = false;
 
@@ -118,34 +117,34 @@ public class ShadowMario extends AbstractGame {
         if (!started) {
             TITLE_FONT.drawString(GAME_TITLE, TITLE_X, TITLE_Y);
             INSTRUCTION_FONT.drawString(INSTRUCTION,
-                    Window.getWidth() / 2 - INSTRUCTION_FONT.getWidth(INSTRUCTION)/2, INS_Y);
+                    (double) Window.getWidth() / 2 - INSTRUCTION_FONT.getWidth(INSTRUCTION)/2, INS_Y);
 
             if (input.wasPressed(Keys.NUM_1)) {
                 started = true;
                 finished = false;
                 score = 0;
 
-                String[][] lines = IOUtils.readCsv(this.PROPS.getProperty("level1File"));
+                String[][] lines = IOUtils.readCsv(PROPS.getProperty("level1File"));
                 populateGameObjects(lines);
             } else if (input.wasPressed(Keys.NUM_2)) {
                 started = true;
                 finished = false;
                 score = 0;
 
-                String[][] lines = IOUtils.readCsv(this.PROPS.getProperty("level2File"));
+                String[][] lines = IOUtils.readCsv(PROPS.getProperty("level2File"));
                 populateGameObjects(lines);
             } else if (input.wasPressed(Keys.NUM_3)) {
                 started = true;
                 finished = false;
                 score = 0;
 
-                String[][] lines = IOUtils.readCsv(this.PROPS.getProperty("level3File"));
+                String[][] lines = IOUtils.readCsv(PROPS.getProperty("level3File"));
                 populateGameObjects(lines);
             }
         } else if (player.isDead() && player.getY() > WINDOW_HEIGHT) {
             String message = MESSAGE_PROPS.getProperty("gameOver");
             MESSAGE_FONT.drawString(message,
-                    Window.getWidth() / 2 - MESSAGE_FONT.getWidth(message)/2,
+                    (double) Window.getWidth() / 2 - MESSAGE_FONT.getWidth(message)/2,
                     MESSAGE_Y);
             if (input.wasPressed(Keys.SPACE)) {
                 started = false;
@@ -154,7 +153,7 @@ public class ShadowMario extends AbstractGame {
             if (finished) {
                 String message = MESSAGE_PROPS.getProperty("gameWon");
                 MESSAGE_FONT.drawString(message,
-                        Window.getWidth() / 2 - MESSAGE_FONT.getWidth(message)/2,
+                        (double) Window.getWidth() / 2 - MESSAGE_FONT.getWidth(message)/2,
                         MESSAGE_Y);
                 if(input.wasPressed(Keys.SPACE)) {
                     started = false;
@@ -198,29 +197,39 @@ public class ShadowMario extends AbstractGame {
             int x = Integer.parseInt(lineElement[1]);
             int y = Integer.parseInt(lineElement[2]);
 
-            if (lineElement[0].equals("PLAYER")) {
-                player = new Player(x, y, PROPS);
-            } else if (lineElement[0].equals("PLATFORM")) {
-                platform = new Platform(x, y, PROPS);
-            } else if (lineElement[0].equals("ENEMY")) {
-                Enemy enemy = new Enemy(x, y, PROPS);
-                enemies[enemyIndex++] = enemy;
-            } else if (lineElement[0].equals("COIN")) {
-                Coin coin = new Coin(x, y, PROPS);
-                coins[coinIndex++] = coin;
-            } else if (lineElement[0].equals("FLYING_PLATFORM")) {
-                FlyingPlatform flyingPlatform = new FlyingPlatform(x, y, PROPS);
-                flyingPlatforms[flyingPlatformIndex++] = flyingPlatform;
-            } else if (lineElement[0].equals("DOUBLE_SCORE")) {
-                DoubleScorePower doubleScorePower = new DoubleScorePower(x, y, PROPS);
-                doubleScorePowers[doubleScorePowerIndex++] = doubleScorePower;
-            } else if (lineElement[0].equals("INVINCIBLE_POWER")) {
-                InvinciblePower invinciblePower = new InvinciblePower(x, y, PROPS);
-                invinciblePowers[invinciblePowerIndex++] = invinciblePower;
-            } else if (lineElement[0].equals("ENEMY_BOSS")) {
-                enemyBoss = new EnemyBoss(x, y, PROPS);
-            } else if (lineElement[0].equals("END_FLAG")) {
-                endFlag = new EndFlag(x, y, PROPS);
+            switch (lineElement[0]) {
+                case "PLAYER":
+                    player = new Player(x, y, PROPS);
+                    break;
+                case "PLATFORM":
+                    platform = new Platform(x, y, PROPS);
+                    break;
+                case "ENEMY":
+                    Enemy enemy = new Enemy(x, y, PROPS);
+                    enemies[enemyIndex++] = enemy;
+                    break;
+                case "COIN":
+                    Coin coin = new Coin(x, y, PROPS);
+                    coins[coinIndex++] = coin;
+                    break;
+                case "FLYING_PLATFORM":
+                    FlyingPlatform flyingPlatform = new FlyingPlatform(x, y, PROPS);
+                    flyingPlatforms[flyingPlatformIndex++] = flyingPlatform;
+                    break;
+                case "DOUBLE_SCORE":
+                    DoubleScorePower doubleScorePower = new DoubleScorePower(x, y, PROPS);
+                    doubleScorePowers[doubleScorePowerIndex++] = doubleScorePower;
+                    break;
+                case "INVINCIBLE_POWER":
+                    InvinciblePower invinciblePower = new InvinciblePower(x, y, PROPS);
+                    invinciblePowers[invinciblePowerIndex++] = invinciblePower;
+                    break;
+                case "ENEMY_BOSS":
+                    enemyBoss = new EnemyBoss(x, y, PROPS);
+                    break;
+                case "END_FLAG":
+                    endFlag = new EndFlag(x, y, PROPS);
+                    break;
             }
         }
     }

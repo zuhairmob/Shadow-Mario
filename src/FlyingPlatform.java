@@ -76,12 +76,12 @@ public class FlyingPlatform {
     private void randomMove(int randMove){
         if (this.randMove == this.RAND_RIGHT){
             this.x += RANDOM_SPEED;
-            displacement += 1;
+            displacement += RANDOM_SPEED;
             if (Math.abs(displacement) >= MAX_RANDOM_DISPLACEMENT) {
                 this.randMove = this.RAND_LEFT;
             }
         } else if (this.randMove == this.RAND_LEFT) {
-            this.x -= 1;
+            this.x -= RANDOM_SPEED;
             displacement -= RANDOM_SPEED;
             if (Math.abs(displacement) >= MAX_RANDOM_DISPLACEMENT) {
                 this.randMove = this.RAND_RIGHT;
