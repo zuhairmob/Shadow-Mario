@@ -1,6 +1,7 @@
 import bagel.Image;
 import bagel.Input;
 import bagel.Keys;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 
@@ -15,11 +16,13 @@ public class EnemyBoss {
     private final int MAX_COORDINATE;
     private int x;
     private double health;
-    private final Random random;
+    private final Random RANDOM;
     private int frameCount = 0;
-    private final int activationRadius;
+    private final int ACTIVATION_RADIUS;
     private int speedY = 0;
     private final int FALL_SPEED = 2;
+    private final char RIGHT = 'r';
+    private final char LEFT = 'l';
 
     public EnemyBoss(int x, int y, Properties props) {
         this.x = x;
@@ -29,23 +32,23 @@ public class EnemyBoss {
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.enemyBoss.speed"));
         this.image = new Image(props.getProperty("gameObjects.enemyBoss.image"));
         this.health = Double.parseDouble(props.getProperty("gameObjects.enemyBoss.health"));
-        this.activationRadius = Integer.parseInt(props.getProperty("gameObjects.enemyBoss.activationRadius"));
-        this.random = new Random();
+        this.ACTIVATION_RADIUS = Integer.parseInt(props.getProperty("gameObjects.enemyBoss.activationRadius"));
+        this.RANDOM = new Random();
     }
 
     /***
      * Method that updates the enemy boss movement and draws it. Also fires fireballs randomly when the player is within
      * the activation radius.
      */
-    public void updateWithTarget(Input input, Player target) {
+    public void updateWithTarget(Input input, Player target, ArrayList<Fireball> fireballs) {
         frameCount++;
         move(input);
         image.draw(x, Y);
 
-        if (target != null && Math.abs(target.getX() - this.x) <= activationRadius && health > 0) {
-            if (random.nextBoolean() && frameCount % 100 == 0) {
+        if (target != null && Math.abs(target.getX() - this.x) <= ACTIVATION_RADIUS && health > 0) {
+            if (RANDOM.nextBoolean() && frameCount % 100 == 0) {
                 frameCount = 0;
-                fire();
+                fire(fireballs);
             }
         }
     }
@@ -68,8 +71,9 @@ public class EnemyBoss {
     /***
      * Method that shoots a new fireball.
      */
-    private void fire() {
-        System.out.println("Fire!");
+    private void fire(ArrayList<Fireball> fireballs) {
+        Fireball fireball = new Fireball(this.x, this.Y, ShadowMario.getPROPS(), LEFT);
+        fireballs.add(fireball);
     }
 
     public double getHealth() {
@@ -78,6 +82,18 @@ public class EnemyBoss {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.Y;
+    }
+
+    public double getRADIUS() {
+        return this.RADIUS;
     }
 
     /**

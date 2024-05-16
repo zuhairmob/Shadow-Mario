@@ -1,6 +1,9 @@
 import bagel.Image;
 import bagel.Input;
 import bagel.Keys;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 
 /**
@@ -20,6 +23,8 @@ public class Player {
     private Boolean isOnFlyingPlatform = false;
     private int previousStationaryY;
     private boolean fallingFromPlatform = false;
+    private final char RIGHT = 'r';
+    private final char LEFT = 'l';
 
     public Player(int x, int y, Properties props) {
         this.X = x;
@@ -35,12 +40,17 @@ public class Player {
     /**
      * Method that updates the image rendered based on user input and draws it.
      */
-    public void update(Input input) {
+    public void update(Input input, ArrayList<Fireball> fireballs, EnemyBoss enemyBoss) {
         if (input.wasPressed(Keys.LEFT)) {
             image = new Image(this.PROPS.getProperty("gameObjects.player.imageLeft"));
         }
         if (input.wasPressed(Keys.RIGHT)) {
             image = new Image(this.PROPS.getProperty("gameObjects.player.imageRight"));
+        }
+        if (enemyBoss != null) {
+            if (input.wasPressed(Keys.S) && Math.abs(this.X - enemyBoss.getX()) <= 500) {
+                fire(fireballs);
+            }
         }
         jump(input);
         image.draw(X, y);
@@ -83,6 +93,14 @@ public class Player {
 
         // set falling from platform boolean
         fallingFromPlatform = previousStationaryY != INITIAL_Y && speedY != 0 && y > previousStationaryY;
+    }
+
+    /**
+     * Method that shoots a new fireball.
+     */
+    private void fire(ArrayList<Fireball> fireballs) {
+        Fireball fireball = new Fireball(this.X, this.y, ShadowMario.getPROPS(), RIGHT);
+        fireballs.add(fireball);
     }
 
     /**

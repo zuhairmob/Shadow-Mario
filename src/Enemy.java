@@ -73,6 +73,7 @@ public class Enemy {
         player.setHealth(newHealth);
 
         if (newHealth <= 0 && !killedTarget) {
+            player.setHealth(0.0);
             player.dead();
             killedTarget = true;
         }

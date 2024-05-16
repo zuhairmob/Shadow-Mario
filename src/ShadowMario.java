@@ -1,12 +1,16 @@
 import bagel.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
 /**
- * Sample solution for SWEN20003 Project 1, Semester 1, 2024
+ * Skeleton Code for SWEN20003 Project 2, Semester 1, 2024
+ * Extended from the sample solution for SWEN20003 Project 1, Semester 1, 2024
+ * Authored by Dimuthu Kariyawasan & Tharun Dharmawickrema
  *
- * @author Dimuthu Kariyawasan & Tharun Dharmawickrema
+ * Please enter your name below
+ * @author Zuhair Mobasshar
  */
 public class ShadowMario extends AbstractGame {
 
@@ -22,7 +26,7 @@ public class ShadowMario extends AbstractGame {
     private final int INS_Y;
     private final Font MESSAGE_FONT;
     private final int MESSAGE_Y;
-    private final Properties PROPS;
+    private static Properties PROPS;
     private final Properties MESSAGE_PROPS;
     private final Font SCORE_FONT;
     private final int SCORE_X;
@@ -44,6 +48,7 @@ public class ShadowMario extends AbstractGame {
     private DoubleScorePower[] doubleScorePowers;
     private InvinciblePower[] invinciblePowers;
     private EnemyBoss enemyBoss;
+    private ArrayList<Fireball> fireballs = new ArrayList<Fireball>();
     private EndFlag endFlag;
     private boolean started = false;
 
@@ -82,7 +87,7 @@ public class ShadowMario extends AbstractGame {
         ENEMY_BOSS_HEALTH_OPTIONS = new DrawOptions();
         ENEMY_BOSS_HEALTH_OPTIONS.setBlendColour(1.0, 0.0, 0.0);
 
-        this.PROPS = game_props;
+        PROPS = game_props;
         this.MESSAGE_PROPS = message_props;
     }
 
@@ -194,9 +199,9 @@ public class ShadowMario extends AbstractGame {
             int y = Integer.parseInt(lineElement[2]);
 
             if (lineElement[0].equals("PLAYER")) {
-                player = new Player(x, y, this.PROPS);
+                player = new Player(x, y, PROPS);
             } else if (lineElement[0].equals("PLATFORM")) {
-                platform = new Platform(x, y, this.PROPS);
+                platform = new Platform(x, y, PROPS);
             } else if (lineElement[0].equals("ENEMY")) {
                 Enemy enemy = new Enemy(x, y, PROPS);
                 enemies[enemyIndex++] = enemy;
@@ -247,13 +252,24 @@ public class ShadowMario extends AbstractGame {
             ip.updateWithTarget(input, player);
         }
 
-        player.update(input);
-        if (enemyBoss != null) enemyBoss.updateWithTarget(input, player);
+        for (Fireball fb: fireballs){
+            fb.updateWithTarget(input, player, enemyBoss);
+        }
+
+        player.update(input, fireballs, enemyBoss);
+        if (enemyBoss != null) enemyBoss.updateWithTarget(input, player, fireballs);
         endFlag.updateWithTarget(input, player);
         FlyingPlatform.setPlayerLandedDuringThisFrame(false);
 
         if(endFlag.isCollided()) {
             finished = true;
         }
+    }
+
+    /**
+     * Getter for the Properties file.
+     */
+    public static Properties getPROPS(){
+        return PROPS;
     }
 }
