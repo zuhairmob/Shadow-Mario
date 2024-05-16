@@ -21,7 +21,7 @@ public class FlyingPlatform {
     private final int RAND_LEFT = 0;
     private final int RAND_RIGHT = 1;
     private int randMove = (int) Math.round(Math.random());
-    int displacement = 0;
+    private int displacement = 0;
 
     public FlyingPlatform(int x, int y, Properties props){
         this.x = x;

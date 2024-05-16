@@ -16,7 +16,7 @@ public class DoubleScorePower {
     private int speedY = 0;
     private Image image;
     private boolean isCollided = false;
-    private final int maxFrames;
+    private final int MAX_FRAMES;
     private static boolean isActive = false;
     private int activeFrames = 0;
 
@@ -27,7 +27,7 @@ public class DoubleScorePower {
         this.RADIUS = Double.parseDouble(props.getProperty("gameObjects.doubleScore.radius"));
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.doubleScore.speed"));
         this.image = new Image(props.getProperty("gameObjects.doubleScore.image"));
-        this.maxFrames = Integer.parseInt(props.getProperty("gameObjects.doubleScore.maxFrames"));
+        this.MAX_FRAMES = Integer.parseInt(props.getProperty("gameObjects.doubleScore.maxFrames"));
     }
 
     /***
@@ -43,7 +43,7 @@ public class DoubleScorePower {
             speedY = COLLISION_SPEED;
         }
 
-        if (activeFrames > maxFrames) {
+        if (activeFrames > MAX_FRAMES) {
             isActive = false;
         }
 

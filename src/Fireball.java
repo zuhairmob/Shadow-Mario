@@ -19,7 +19,7 @@ public class Fireball {
     private boolean killedTarget = false;
     private boolean hitPlayer = false;
     private boolean hitEnemyBoss = false;
-    private final char direction;
+    private final char DIRECTION;
     private final char RIGHT = 'r';
     private final char LEFT = 'l';
 
@@ -31,7 +31,7 @@ public class Fireball {
         this.DAMAGE_SIZE = Double.parseDouble(props.getProperty("gameObjects.fireball.damageSize"));
         this.SHOOT_SPEED = Integer.parseInt(props.getProperty("gameObjects.fireball.speed"));
         this.image = new Image(props.getProperty("gameObjects.fireball.image"));
-        this.direction = direction;
+        this.DIRECTION = direction;
     }
 
     /***
@@ -41,14 +41,14 @@ public class Fireball {
         move(input);
         if (!hitPlayer && !hitEnemyBoss) image.draw(x, Y);
 
-        if (this.direction == LEFT) {
+        if (this.DIRECTION == LEFT) {
             if (player != null && CollisionDetector.isCollided(player, this.x, this.Y, this.RADIUS) && !hitPlayer) {
                 hitPlayer = true;
                 if (!InvinciblePower.isActive()) {
                     damagePlayer(player);
                 }
             }
-        } else if (this.direction == RIGHT) {
+        } else if (this.DIRECTION == RIGHT) {
             if (enemyBoss != null && CollisionDetector.isCollided(enemyBoss, this.x, this.Y, this.RADIUS) && !hitEnemyBoss) {
                 hitEnemyBoss = true;
                 damageEnemyBoss(enemyBoss);
@@ -60,9 +60,9 @@ public class Fireball {
      * Method that moves the fireball based on the player's movement.
      */
     private void move(Input input) {
-        if (direction == LEFT){
+        if (DIRECTION == LEFT){
             this.x -= SHOOT_SPEED;
-        } else if (direction == RIGHT) {
+        } else if (DIRECTION == RIGHT) {
             this.x += SHOOT_SPEED;
         }
 

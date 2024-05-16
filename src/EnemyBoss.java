@@ -9,7 +9,7 @@ import java.util.Random;
  * Class for the enemy boss.
  */
 public class EnemyBoss {
-    private int Y;
+    private int y;
     private final double RADIUS;
     private final int SPEED_X;
     private Image image;
@@ -26,7 +26,7 @@ public class EnemyBoss {
 
     public EnemyBoss(int x, int y, Properties props) {
         this.x = x;
-        this.Y = y;
+        this.y = y;
         this.MAX_COORDINATE = x;
         this.RADIUS = Double.parseDouble(props.getProperty("gameObjects.enemyBoss.radius"));
         this.SPEED_X = Integer.parseInt(props.getProperty("gameObjects.enemyBoss.speed"));
@@ -43,7 +43,7 @@ public class EnemyBoss {
     public void updateWithTarget(Input input, Player target, ArrayList<Fireball> fireballs) {
         frameCount++;
         move(input);
-        image.draw(x, Y);
+        image.draw(x, y);
 
         if (target != null && Math.abs(target.getX() - this.x) <= ACTIVATION_RADIUS && health > 0) {
             if (RANDOM.nextBoolean() && frameCount % 100 == 0) {
@@ -65,14 +65,14 @@ public class EnemyBoss {
             }
         }
 
-        this.Y += speedY;
+        this.y += speedY;
     }
 
     /***
      * Method that shoots a new fireball.
      */
     private void fire(ArrayList<Fireball> fireballs) {
-        Fireball fireball = new Fireball(this.x, this.Y, ShadowMario.getPROPS(), LEFT);
+        Fireball fireball = new Fireball(this.x, this.y, ShadowMario.getPROPS(), LEFT);
         fireballs.add(fireball);
     }
 
@@ -89,7 +89,7 @@ public class EnemyBoss {
     }
 
     public int getY() {
-        return this.Y;
+        return this.y;
     }
 
     public double getRADIUS() {
